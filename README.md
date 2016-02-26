@@ -14,6 +14,10 @@ A *container* is a special React component that doesn't output any HTML. Instead
 
 This package provides two containers that help you fetch data and pass it as props either for a paginated list of documents, or for a single document. 
 
+### A Note About Meteor 1.3
+
+Although this package was made with 1.3 in mind, Atmosphere doesn't yet support the new `api.mainModule` syntax, so for now the package exports `ListContainer` and `ItemContainer` globals. 
+
 ## List Container
 
 ### Usage

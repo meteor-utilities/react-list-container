@@ -1,4 +1,4 @@
-const ItemContainer = React.createClass({
+ItemContainer = React.createClass({
 
   propTypes: {
     collection: React.PropTypes.object.isRequired,

@@ -1,4 +1,4 @@
-const ListContainer = React.createClass({
+ListContainer = React.createClass({
 
   propTypes: {
     collection: React.PropTypes.object.isRequired, // the collection to paginate
