@@ -1,4 +1,4 @@
-ListContainer = React.createClass({
+const ListContainer = React.createClass({
 
   propTypes: {
     collection: React.PropTypes.object.isRequired, // the collection to paginate
@@ -112,7 +112,4 @@ ListContainer = React.createClass({
 
 });
 
-// export default PostListContainer;
-
-// module.exports = ListContainer;
 export default ListContainer;
