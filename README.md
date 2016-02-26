@@ -4,19 +4,17 @@ A set of React container components (list & item) used to manage template-level 
 
 ### Install
 
-```
-meteor add utilities:react-list-container
-```
+~~`meteor add utilities:react-list-container`~~
+
+Atmosphere doesn't yet support the new `api.mainModule` syntax, so you'll have to manually clone this package locally for now. 
+
+You can use a Git submodule, or else (my suggestion) use the [PACKAGE_DIRS](https://github.com/iron-meteor/iron-router#working-locally) technique.
 
 ### Usage
 
 A *container* is a special React component that doesn't output any HTML. Instead, its whole job is to fetch data and pass it on as props to its child components. 
 
 This package provides two containers that help you fetch data and pass it as props either for a paginated list of documents, or for a single document. 
-
-### A Note About Meteor 1.3
-
-Although this package was made with 1.3 in mind, Atmosphere doesn't yet support the new `api.mainModule` syntax, so for now the package exports `ListContainer` and `ItemContainer` globals. 
 
 ## List Container
 
