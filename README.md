@@ -21,8 +21,8 @@ You can import and use the containers with:
 ```js
 import Containers from "meteor/utilities:react-list-container";
 
-// Containers.ListContainer
-// Containers.ItemContainer
+const ListContainer = Containers.ListContainer;
+const ItemContainer = Containers.ItemContainer;
 
 ```
 
