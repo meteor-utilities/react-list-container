@@ -38,7 +38,14 @@ const ListContainer = React.createClass({
     // subscribe if needed. Note: always subscribe first, otherwise 
     // it won't work when server-side rendering with FlowRouter SSR
     if (this.props.publication) {
-      let terms = {...this.props.terms, limit: this.state.limit};
+      let terms = this.props.terms;
+
+      if (terms.options) {
+        terms.options.limit = this.state.limit;
+      } else {
+        terms.options = {limit: this.state.limit};
+      }
+      
       const subscription = Meteor.subscribe(this.props.publication, terms);
       data.ready = subscription.ready();
     }
