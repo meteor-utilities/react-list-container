@@ -19,7 +19,7 @@ This package provides two containers that help you fetch data and pass it as pro
 You can import and use the containers with:
 
 ```js
-import {Containers} from "meteor/utilities:react-list-container";
+import Containers from "meteor/utilities:react-list-container";
 
 // Containers.ListContainer
 // Containers.ItemContainer
