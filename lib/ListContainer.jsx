@@ -1,3 +1,5 @@
+import Utils from './utils.js'
+
 const ListContainer = React.createClass({
 
   propTypes: {
@@ -85,7 +87,7 @@ const ListContainer = React.createClass({
     
     // transform list into tree
     if (this.props.parentProperty) {
-      results = Telescope.utils.unflatten(results, "_id", this.props.parentProperty);
+      results = Utils.unflatten(results, "_id", this.props.parentProperty);
     }
 
     data = {
