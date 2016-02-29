@@ -4,11 +4,7 @@ A set of React container components (list & item) used to manage template-level 
 
 ### Install
 
-~~`meteor add utilities:react-list-container`~~
-
-Atmosphere doesn't yet support the new `api.mainModule` syntax, so you'll have to manually clone this package locally for now. 
-
-You can use a Git submodule, or else (my suggestion) use the [PACKAGE_DIRS](https://github.com/iron-meteor/iron-router#working-locally) technique.
+`meteor add utilities:react-list-container`
 
 ### Usage
 

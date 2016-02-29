@@ -10,25 +10,12 @@ Package.onUse(function(api) {
   api.versionsFrom("METEOR@1.3-beta.11");
   
   api.use([
-    'react',
+    'react@0.14.3_1',
     'modules',
     'ecmascript',
-    'jsx'
+    'jsx@0.2.4'
   ]);
 
-  // use globals until Atmosphere supports 1.3
-
-  // api.addFiles([
-  //   'lib/ItemContainer.jsx',
-  //   'lib/ListContainer.jsx'
-  // ], ['client', 'server']);
-
-  // api.export([
-  //   'ItemContainer',
-  //   'ListContainer'
-  // ]);
-
-  // not supported yet
   api.mainModule("lib/export.js", ["client", "server"]);
 
 });
