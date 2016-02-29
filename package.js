@@ -13,7 +13,8 @@ Package.onUse(function(api) {
     'react@0.14.3_1',
     'modules',
     'ecmascript',
-    'jsx@0.2.4'
+    'jsx@0.2.4',
+    'publish-counts@0.7.3'
   ]);
 
   api.mainModule("lib/export.js", ["client", "server"]);

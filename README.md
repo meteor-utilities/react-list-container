@@ -148,7 +148,7 @@ A count of the *total number of documents* matching the query *on the server*.
 
 ##### `hasMore` (boolean)
 
-Whether there is more content to load or not. 
+Whether there is more content to load or not. Also see above note about requiring the [publish-counts](https://github.com/percolatestudio/publish-counts) package.
 
 ##### `ready` (boolean)
 

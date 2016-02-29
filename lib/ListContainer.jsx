@@ -55,10 +55,11 @@ const ListContainer = React.createClass({
 
     const cursor = this.props.collection.find(selector, options);
     const count = cursor.count();
+
     // when rendering on the server, we want to get a count without the limit
+    // note: doesn't quite work yet because of how FlowRouter SSR works
     const optionsNoLimit = {...this.props.options, limit: 0}; 
     const cursorNoLimit = this.props.collection.find(selector, optionsNoLimit);
-
     const totalCount = Meteor.isClient ? Counts.get(this.props.publication) : cursorNoLimit.count();
 
     let results = cursor.fetch(); 
