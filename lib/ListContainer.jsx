@@ -68,27 +68,41 @@ const ListContainer = React.createClass({
     if (this.props.joins) {
 
       // loop over each document in the results
-      results.forEach(doc => {
+      results.forEach(document => {
 
         // loop over each join
         this.props.joins.forEach(join => {
 
-          // get the property containing the id or ids
-          const joinProperty = doc[join.property];
           const collection = typeof join.collection === "function" ? join.collection() : join.collection;
           const joinLimit = join.limit ? join.limit : 0;
 
-          // perform the join
-          if (Array.isArray(joinProperty)) { // join property is an array of ids
-            doc[join.joinAs] = collection.find({_id: {$in: joinProperty}}, {limit: joinLimit}).fetch();
-          } else { // join property is a single id
-            doc[join.joinAs] = collection.findOne({_id: joinProperty});
+          if (join.foreignProperty) {
+            // foreign join (e.g. comments belonging to a post)
+
+            // get the property containing the id
+            const foreignProperty = document[join.foreignProperty];
+            const joinSelector = {};
+            joinSelector[join.foreignProperty] = document._id;
+            document[join.joinAs] = collection.find(joinSelector);
+
+          } else {
+            // local join (e.g. a post's upvoters)
+
+            // get the property containing the id or ids
+            const localProperty = document[join.localProperty];
+
+            if (Array.isArray(localProperty)) { // join property is an array of ids
+              document[join.joinAs] = collection.find({_id: {$in: localProperty}}, {limit: joinLimit}).fetch();
+            } else { // join property is a single id
+              document[join.joinAs] = collection.findOne({_id: localProperty});
+            }
           }
+
             
         });
 
         // return the updated document
-        return doc;
+        return document;
 
       });
     }

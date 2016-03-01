@@ -1,7 +1,7 @@
 Package.describe({
   name: "utilities:react-list-container",
   summary: "List container for React",
-  version: "0.1.0",
+  version: "0.1.2",
   git: "https://github.com/meteor-utilities/react-list-container.git"
 });
 
@@ -14,7 +14,7 @@ Package.onUse(function(api) {
     'modules',
     'ecmascript',
     'jsx@0.2.4',
-    'publish-counts@0.7.3'
+    'tmeasday:publish-counts@0.7.3'
   ]);
 
   api.mainModule("lib/export.js", ["client", "server"]);

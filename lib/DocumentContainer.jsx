@@ -1,4 +1,4 @@
-const ItemContainer = React.createClass({
+const DocumentContainer = React.createClass({
 
   propTypes: {
     collection: React.PropTypes.object.isRequired,
@@ -59,4 +59,4 @@ const ItemContainer = React.createClass({
 
 });
 
-export default ItemContainer;
+export default DocumentContainer;

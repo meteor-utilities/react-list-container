@@ -18,7 +18,7 @@ You can import and use the containers with:
 import Containers from "meteor/utilities:react-list-container";
 
 const ListContainer = Containers.ListContainer;
-const ItemContainer = Containers.ItemContainer;
+const DocumentContainer = Containers.DocumentContainer;
 
 ```
 
@@ -72,13 +72,16 @@ Additionally, the following advanced features are also available:
 
 An array of joins. Each join object has the following properties:
 
-- `property` (string): the property in the current collection containing the join info.
+- `localProperty` (string): the property in the current collection containing the join info (for example, a `categories` property containing an array of a post's categories' `_id`s).
+- `foreignProperty` (string): the property in the *other* collection containing the `_id` of documents in the current collection (for example, a `postId` property on the `Comments` collection for comments belonging to a post).
 - `collection` (object|function): the collection in which to look for the documents to join (or alternatively a function returning the collection).
 - `joinAs` (string): the new property under which to store the result of the join.
 
 The container makes the following assumptions:
 
-- The `property` property contains either a single `_id`, or an array of `_id`s.
+- The `localProperty` property contain either a single `_id`, or an array of `_id`s.
+- The `foreignProperty` property contain a single `_id`.
+- You can't have both a `localProperty` and a `foreignProperty`. 
 - The data required by the join is published by the `publication` publication, or else has already been published independently.
 
 Example:
@@ -86,14 +89,19 @@ Example:
 ```js
 joins = [
   {
-    property: "userId",
+    localProperty: "userId",
     collection: Meteor.users,
     joinAs: "author"
   },
   {
-    property: "categoriesId",
+    localProperty: "categoriesId",
     collection: Categories,
     joinAs: "categories"
+  },
+  {
+    foreignProperty: "postId",
+    collection: Comments,
+    joinAs: "comments"
   }
 ]
 ```
@@ -161,9 +169,9 @@ Whether the subscription is ready (default to `true` if there is no subscription
 Similarly to the list component, this container will pass props to any child component. But unlike the list container, it only works for single documents:
 
 ```jsx
-<ItemContainer collection={Posts} selector={{_id: "xyz"}}>
+<DocumentContainer collection={Posts} selector={{_id: "xyz"}}>
   <Post/>
-</ItemContainer>
+</DocumentContainer>
 ```
 
 ### Input
