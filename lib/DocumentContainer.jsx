@@ -6,7 +6,9 @@ const DocumentContainer = React.createClass({
     publication: React.PropTypes.string,
     terms: React.PropTypes.object,
     joins: React.PropTypes.array,
-    loading: React.PropTypes.func
+    loading: React.PropTypes.func,
+    component: React.PropTypes.func,
+    componentProperties: React.PropTypes.object
   },
 
   mixins: [ReactMeteorData],
@@ -50,8 +52,14 @@ const DocumentContainer = React.createClass({
 
   render() {
     const loadingComponent = this.props.loading ? this.props.loading : <p>Loading…</p>
+
     if (this.data.document) {
-      return React.cloneElement(this.props.children, { ...this.data, collection: this.props.collection });
+      if (this.props.component) {
+        const Component = this.props.component;
+        return <Component {...this.props.componentProperties} {...this.data} collection={this.props.collection} />;
+      } else {
+        return React.cloneElement(this.props.children, { ...this.props.componentProperties, ...this.data, collection: this.props.collection });
+      }
     } else {
       return loadingComponent;
     }

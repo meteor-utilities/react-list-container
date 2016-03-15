@@ -10,7 +10,9 @@ const ListContainer = React.createClass({
     terms: React.PropTypes.object, // an object passed to the publication
     limit: React.PropTypes.number, // the limit used to increase pagination
     joins: React.PropTypes.array, // joins to apply to the results
-    parentProperty: React.PropTypes.string // if provided, use to generate tree
+    parentProperty: React.PropTypes.string, // if provided, use to generate tree
+    component: React.PropTypes.func, // another way to pass a child component
+    componentProperties: React.PropTypes.object // the component's properties
   },
 
   getDefaultProps: function() {
@@ -131,7 +133,12 @@ const ListContainer = React.createClass({
   },
 
   render() {
-    return React.cloneElement(this.props.children, { ...this.data, loadMore: this.loadMore});
+    if (this.props.component) {
+      const Component = this.props.component;
+      return <Component {...this.props.componentProperties} {...this.data} loadMore={this.loadMore} />;
+    } else {
+      return React.cloneElement(this.props.children, { ...this.props.componentProperties, ...this.data, loadMore: this.loadMore});
+    }
   }
 
 });
