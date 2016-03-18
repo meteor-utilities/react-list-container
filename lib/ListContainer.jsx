@@ -1,3 +1,7 @@
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
+import React, { PropTypes, Component } from 'react';
+
 import Utils from './utils.js'
 
 const ListContainer = React.createClass({

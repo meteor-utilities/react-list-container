@@ -162,6 +162,10 @@ Whether there is more content to load or not. Also see above note about requirin
 
 Whether the subscription is ready (default to `true` if there is no subscription).
 
+##### `loadMore` (function)
+
+A callback function that loads the next items in the list. 
+
 ## Item Container
 
 ### Usage

@@ -1,3 +1,5 @@
+import React, { PropTypes, Component } from 'react';
+
 const DocumentContainer = React.createClass({
 
   propTypes: {
