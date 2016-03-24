@@ -6,25 +6,6 @@ import Utils from './utils.js'
 
 const ListContainer = React.createClass({
 
-  propTypes: {
-    collection: React.PropTypes.object.isRequired, // the collection to paginate
-    selector: React.PropTypes.object, // the selector used in collection.find()
-    options: React.PropTypes.object, // the options used in collection.find()
-    publication: React.PropTypes.string, // the publication to subscribe to
-    terms: React.PropTypes.object, // an object passed to the publication
-    limit: React.PropTypes.number, // the limit used to increase pagination
-    joins: React.PropTypes.array, // joins to apply to the results
-    parentProperty: React.PropTypes.string, // if provided, use to generate tree
-    component: React.PropTypes.func, // another way to pass a child component
-    componentProperties: React.PropTypes.object // the component's properties
-  },
-
-  getDefaultProps: function() {
-    return {
-      limit: 10
-    };
-  },
-
   getInitialState() {
     return {
       limit: this.props.limit
@@ -66,7 +47,7 @@ const ListContainer = React.createClass({
     // note: doesn't quite work yet because of how FlowRouter SSR works
     const optionsNoLimit = {...this.props.options, limit: 0}; 
     const cursorNoLimit = this.props.collection.find(selector, optionsNoLimit);
-    const totalCount = Meteor.isClient ? Counts.get(this.props.publication) : cursorNoLimit.count();
+    const totalCount = Meteor.isClient ? Counts && Counts.get(this.props.publication) : cursorNoLimit.count();
 
     let results = cursor.fetch(); 
 
@@ -120,11 +101,12 @@ const ListContainer = React.createClass({
 
     data = {
       ...data,
-      results: results,
       count: count,
       totalCount: totalCount,
-      hasMore: count < totalCount
+      hasMore: !totalCount || count < totalCount // if totalCount is unknown, default to true
     };
+
+    data[this.props.resultsPropName] = results;
 
     return data;
   },
@@ -139,12 +121,31 @@ const ListContainer = React.createClass({
   render() {
     if (this.props.component) {
       const Component = this.props.component;
-      return <Component {...this.props.componentProperties} {...this.data} loadMore={this.loadMore} />;
+      return <Component {...this.props.componentProps} {...this.data} loadMore={this.loadMore} />;
     } else {
-      return React.cloneElement(this.props.children, { ...this.props.componentProperties, ...this.data, loadMore: this.loadMore});
+      return React.cloneElement(this.props.children, { ...this.props.componentProps, ...this.data, loadMore: this.loadMore});
     }
   }
 
 });
+
+ListContainer.propTypes = {
+  collection: React.PropTypes.object.isRequired, // the collection to paginate
+  selector: React.PropTypes.object, // the selector used in collection.find()
+  options: React.PropTypes.object, // the options used in collection.find()
+  publication: React.PropTypes.string, // the publication to subscribe to
+  terms: React.PropTypes.object, // an object passed to the publication
+  limit: React.PropTypes.number, // the limit used to increase pagination
+  joins: React.PropTypes.array, // joins to apply to the results
+  parentProperty: React.PropTypes.string, // if provided, use to generate tree
+  component: React.PropTypes.func, // another way to pass a child component
+  componentProps: React.PropTypes.object, // the component's properties
+  resultsPropName: React.PropTypes.string //if provided, the name of the property to use for results
+}
+
+ListContainer.defaultProps = {
+  limit: 10,
+  resultsPropName: "results"
+}
 
 export default ListContainer;

@@ -2,17 +2,6 @@ import React, { PropTypes, Component } from 'react';
 
 const DocumentContainer = React.createClass({
 
-  propTypes: {
-    collection: React.PropTypes.object.isRequired,
-    selector: React.PropTypes.object.isRequired,
-    publication: React.PropTypes.string,
-    terms: React.PropTypes.object,
-    joins: React.PropTypes.array,
-    loading: React.PropTypes.func,
-    component: React.PropTypes.func,
-    componentProperties: React.PropTypes.object
-  },
-
   mixins: [ReactMeteorData],
   
   getMeteorData() {
@@ -46,10 +35,13 @@ const DocumentContainer = React.createClass({
 
     }
 
-    return {
-      document: document,
+    const data = {
       currentUser: Meteor.user()
-    };
+    }
+
+    data[this.props.documentPropName] = document;
+
+    return data;
   },
 
   render() {
@@ -68,5 +60,23 @@ const DocumentContainer = React.createClass({
   }
 
 });
+
+
+DocumentContainer.propTypes = {
+  collection: React.PropTypes.object.isRequired,
+  selector: React.PropTypes.object.isRequired,
+  publication: React.PropTypes.string,
+  terms: React.PropTypes.object,
+  joins: React.PropTypes.array,
+  loading: React.PropTypes.func,
+  component: React.PropTypes.func,
+  componentProperties: React.PropTypes.object,
+  documentPropName: React.PropTypes.string
+}
+
+DocumentContainer.defaultProps = {
+  documentPropName: "document"
+}
+
 
 export default DocumentContainer;

@@ -26,12 +26,18 @@ const DocumentContainer = Containers.DocumentContainer;
 
 ### Usage
 
-To use the list container, just wrap it around a child container:
+To use the list container, just wrap it around a child component:
 
 ```jsx
 <ListContainer collection={Posts} publication="posts.list">
   <PostList/>
 </ListContainer>
+```
+
+Or alternatively pass the child component as the `component` argument:
+
+```jsx
+<ListContainer collection={Posts} publication="posts.list" component={PostList}/>
 ```
 
 ### Input
@@ -63,6 +69,16 @@ If a publication is provided, an object passed as argument to the publication wh
 ##### `limit` (number)
 
 How many documents to initially query, as well as how much to increment the list by every time. Defaults to `10`.
+
+##### `component` (object)
+
+The component to be wrapped by the container (can also be passed as child).
+
+##### `componentProps` (object)
+
+Properties passed to the component (when specified as attribute) in addition to the ones provided by the container. 
+
+##### `componentProps` (object)
 
 #### Advanced Props
 
@@ -132,6 +148,10 @@ In the following example, you would pass `parentCommentId` as the `parentPropert
 
 Note: make sure to pass `0` as a limit to load all documents when using trees.
 
+##### `resultsPropName` (string)
+
+By default, the container will store its results in a `results` property. You can optionally pass a different property name. 
+
 ### Output
 
 The list container passes on the following props:
@@ -166,7 +186,7 @@ Whether the subscription is ready (default to `true` if there is no subscription
 
 A callback function that loads the next items in the list. 
 
-## Item Container
+## Document Container
 
 ### Usage
 
@@ -202,9 +222,21 @@ See list container.
 
 See list container.
 
+##### `component` (object)
+
+See list container.
+
+##### `componentProps` (object)
+
+See list container.
+
 ##### `loading` (component)
 
 A React component to display while the subscription is working.
+
+##### `documentPropName` (string)
+
+By default, the container will store its results in a `document` property. You can optionally pass a different property name. 
 
 ### Output
 
