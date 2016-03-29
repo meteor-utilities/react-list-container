@@ -20,17 +20,30 @@ const DocumentContainer = React.createClass({
       // loop over each join
       this.props.joins.forEach(join => {
 
-        // get the property containing the id or ids
-        const joinProperty = document[join.property];
-        const collection = typeof join.collection === "function" ? join.collection() : join.collection;
+        if (join.foreignProperty) {
+          // foreign join (e.g. comments belonging to a post)
 
-        // perform the join
-        if (Array.isArray(joinProperty)) { // join property is an array of ids
-          document[join.joinAs] = collection.find({_id: {$in: joinProperty}}).fetch();
-        } else { // join property is a single id
-          document[join.joinAs] = collection.findOne({_id: joinProperty});
+          // get the property containing the id
+          const foreignProperty = document[join.foreignProperty];
+          const joinSelector = {};
+          joinSelector[join.foreignProperty] = document._id;
+          document[join.joinAs] = collection.find(joinSelector);
+
+        } else {
+          // local join (e.g. a post's upvoters)
+
+          // get the property containing the id or ids
+          const joinProperty = document[join.localProperty];
+          const collection = typeof join.collection === "function" ? join.collection() : join.collection;
+
+          // perform the join
+          if (Array.isArray(joinProperty)) { // join property is an array of ids
+            document[join.joinAs] = collection.find({_id: {$in: joinProperty}}).fetch();
+          } else { // join property is a single id
+            document[join.joinAs] = collection.findOne({_id: joinProperty});
+          }
         }
-          
+
       });
 
     }
@@ -47,7 +60,7 @@ const DocumentContainer = React.createClass({
   render() {
     const loadingComponent = this.props.loading ? this.props.loading : <p>Loading…</p>
 
-    if (this.data.document) {
+    if (this.data[this.props.documentPropName]) {
       if (this.props.component) {
         const Component = this.props.component;
         return <Component {...this.props.componentProperties} {...this.data} collection={this.props.collection} />;
