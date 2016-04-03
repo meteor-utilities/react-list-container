@@ -82,7 +82,7 @@ DocumentContainer.propTypes = {
   collection: React.PropTypes.object.isRequired,
   selector: React.PropTypes.object.isRequired,
   publication: React.PropTypes.string,
-  terms: React.PropTypes.object,
+  terms: React.PropTypes.any,
   joins: React.PropTypes.array,
   loading: React.PropTypes.func,
   component: React.PropTypes.func,

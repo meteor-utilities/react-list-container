@@ -137,7 +137,7 @@ ListContainer.propTypes = {
   selector: React.PropTypes.object, // the selector used in collection.find()
   options: React.PropTypes.object, // the options used in collection.find()
   publication: React.PropTypes.string, // the publication to subscribe to
-  terms: React.PropTypes.object, // an object passed to the publication
+  terms: React.PropTypes.any, // an object passed to the publication
   limit: React.PropTypes.number, // the limit used to increase pagination
   joins: React.PropTypes.array, // joins to apply to the results
   parentProperty: React.PropTypes.string, // if provided, use to generate tree
