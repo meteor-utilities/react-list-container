@@ -4,6 +4,8 @@ import React, { PropTypes, Component } from 'react';
 
 import Utils from './utils.js'
 
+const Subs = new SubsManager();
+
 const ListContainer = React.createClass({
 
   getInitialState() {
@@ -33,7 +35,8 @@ const ListContainer = React.createClass({
         terms.options = {limit: this.state.limit};
       }
       
-      const subscription = Meteor.subscribe(this.props.publication, terms);
+      const subscribeFunction = this.props.cacheSubscription ? Subs.subscribe : Meteor.subscribe;
+      const subscription = subscribeFunction(this.props.publication, terms);
       data.ready = subscription.ready();
     }
 
@@ -140,12 +143,14 @@ ListContainer.propTypes = {
   parentProperty: React.PropTypes.string, // if provided, use to generate tree
   component: React.PropTypes.func, // another way to pass a child component
   componentProps: React.PropTypes.object, // the component's properties
-  resultsPropName: React.PropTypes.string //if provided, the name of the property to use for results
+  resultsPropName: React.PropTypes.string, // if provided, the name of the property to use for results
+  cacheSubscription: React.PropTypes.bool // set to true to cache subscription using Subs Manager
 }
 
 ListContainer.defaultProps = {
   limit: 10,
-  resultsPropName: "results"
+  resultsPropName: "results",
+  cacheSubscription: false
 }
 
 export default ListContainer;

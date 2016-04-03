@@ -13,7 +13,8 @@ Package.onUse(function(api) {
     'ecmascript',
     'react-meteor-data@0.2.6-beta.16',
     'tmeasday:check-npm-versions@0.1.1',
-    'tmeasday:publish-counts@0.7.3'
+    'tmeasday:publish-counts@0.7.3',
+    'meteorhacks:subs-manager@1.6.4'
   ]);
 
   api.mainModule("lib/export.js", ["client", "server"]);

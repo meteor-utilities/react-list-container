@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 
+const Subs = new SubsManager();
+
 const DocumentContainer = React.createClass({
 
   mixins: [ReactMeteorData],
@@ -8,12 +10,13 @@ const DocumentContainer = React.createClass({
 
     // subscribe if necessary
     if (this.props.publication) {
-      const subscription = Meteor.subscribe(this.props.publication, this.props.terms);
+      const subscribeFunction = this.props.cacheSubscription ? Subs.subscribe : Meteor.subscribe;
+      const subscription = subscribeFunction(this.props.publication, this.props.terms);
     }
 
     const collection = this.props.collection;
     const document = collection.findOne(this.props.selector);
-    
+
     // look for any specified joins
     if (document && this.props.joins) {
 
@@ -63,9 +66,9 @@ const DocumentContainer = React.createClass({
     if (this.data[this.props.documentPropName]) {
       if (this.props.component) {
         const Component = this.props.component;
-        return <Component {...this.props.componentProperties} {...this.data} collection={this.props.collection} />;
+        return <Component {...this.props.componentProps} {...this.data} collection={this.props.collection} />;
       } else {
-        return React.cloneElement(this.props.children, { ...this.props.componentProperties, ...this.data, collection: this.props.collection });
+        return React.cloneElement(this.props.children, { ...this.props.componentProps, ...this.data, collection: this.props.collection });
       }
     } else {
       return loadingComponent;
@@ -83,12 +86,14 @@ DocumentContainer.propTypes = {
   joins: React.PropTypes.array,
   loading: React.PropTypes.func,
   component: React.PropTypes.func,
-  componentProperties: React.PropTypes.object,
-  documentPropName: React.PropTypes.string
+  componentProps: React.PropTypes.object,
+  documentPropName: React.PropTypes.string,
+  cacheSubscription: React.PropTypes.bool
 }
 
 DocumentContainer.defaultProps = {
-  documentPropName: "document"
+  documentPropName: "document",
+  cacheSubscription: false
 }
 
 

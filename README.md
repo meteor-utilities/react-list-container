@@ -152,6 +152,10 @@ Note: make sure to pass `0` as a limit to load all documents when using trees.
 
 By default, the container will store its results in a `results` property. You can optionally pass a different property name. 
 
+##### `cacheSubscription` (bool)
+
+Set to `true` to cache your subscription using [Subs Manager](https://github.com/kadirahq/subs-manager).
+
 ### Output
 
 The list container passes on the following props:
