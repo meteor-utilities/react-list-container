@@ -24,6 +24,7 @@ id-map@1.0.5
 jquery@1.11.6
 logging@1.0.10
 meteor@1.1.12
+meteorhacks:subs-manager@1.6.4
 minimongo@1.0.12
 modules@0.5.1
 modules-runtime@0.6.1

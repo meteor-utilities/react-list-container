@@ -1,7 +1,7 @@
 Package.describe({
   name: "utilities:react-list-container",
   summary: "List container for React",
-  version: "0.1.6",
+  version: "0.1.7",
   git: "https://github.com/meteor-utilities/react-list-container.git"
 });
 
