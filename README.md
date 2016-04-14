@@ -176,7 +176,7 @@ A count of the documents.
 
 A count of the *total number of documents* matching the query *on the server*.
 
-(Note: requires publishing a count with the same name as the publication using the [publish-counts](https://github.com/percolatestudio/publish-counts) package).
+(Note: will only be available if you're publishing a count with the same name as the publication using the [publish-counts](https://github.com/percolatestudio/publish-counts) package).
 
 ##### `hasMore` (boolean)
 

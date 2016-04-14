@@ -29,11 +29,11 @@ const ListContainer = React.createClass({
     if (this.props.publication) {
       let terms = this.props.terms || {};
 
-      if (terms.options) {
-        terms.options.limit = this.state.limit;
-      } else {
-        terms.options = {limit: this.state.limit};
+      // set subscription terms limit based on component state
+      if (!terms.options) {
+        terms.options = {}
       }
+      terms.options.limit = this.state.limit;
       
       const subscribeFunction = this.props.cacheSubscription ? Subs.subscribe : Meteor.subscribe;
       const subscription = subscribeFunction(this.props.publication, terms);
@@ -44,13 +44,8 @@ const ListContainer = React.createClass({
     const options = {...this.props.options, limit: this.state.limit}; 
 
     const cursor = this.props.collection.find(selector, options);
-    const count = cursor.count();
-
-    // when rendering on the server, we want to get a count without the limit
-    // note: doesn't quite work yet because of how FlowRouter SSR works
-    // const optionsNoLimit = {...this.props.options, limit: 0}; 
-    // const cursorNoLimit = this.props.collection.find(selector, optionsNoLimit);
-    const totalCount = Meteor.isClient ? Counts && Counts.get(this.props.publication) : 0;
+    
+    data.count = cursor.count();
 
     let results = cursor.fetch(); 
 
@@ -102,14 +97,20 @@ const ListContainer = React.createClass({
       results = Utils.unflatten(results, "_id", this.props.parentProperty);
     }
 
-    data = {
-      ...data,
-      count: count,
-      totalCount: totalCount,
-      hasMore: !totalCount || count < totalCount // if totalCount is unknown, default to true
-    };
+    // if publish-counts package is available, use it to get the totalCount
+    // and figure out if there are more items to load.
+    if (Counts && Counts.get && Counts.get(this.props.publication)) {
+      data.totalCount = Counts.get(this.props.publication);
+      data.hasMore = data.count < data.totalCount;
+    } else {
+      // if not, just keep showing "load more" as long as we get back as many items as we asked for
+      data.hasMore = data.count === this.state.limit;
+    }
 
     data[this.props.resultsPropName] = results;
+
+    console.log(this.state.limit)
+    console.log(data)
 
     return data;
   },
