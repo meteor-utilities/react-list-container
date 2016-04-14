@@ -109,9 +109,6 @@ const ListContainer = React.createClass({
 
     data[this.props.resultsPropName] = results;
 
-    console.log(this.state.limit)
-    console.log(data)
-
     return data;
   },
 
