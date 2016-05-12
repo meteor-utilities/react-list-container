@@ -68,7 +68,11 @@ If a publication is provided, an object passed as argument to the publication wh
 
 ##### `limit` (number)
 
-How many documents to initially query, as well as how much to increment the list by every time. Defaults to `10`.
+How many documents to initially query. Defaults to `10`.
+
+##### `increment` (number)
+
+How much to increment the list by every time. Defaults to `10`. If set to `0`, the container will always act as if they were no more elements to more (`hasMore` equals `false`).
 
 ##### `component` (object)
 
