@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import React, { PropTypes, Component } from 'react';
-import CursorCounts from './counts.js';
+import CursorCounts from './cursorcounts.js';
 import Utils from './utils.js'
 
 const Subs = new SubsManager();

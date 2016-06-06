@@ -266,7 +266,7 @@ The document.
 
 This package also provides a `CursorCounts` object to keep track of cursor counts (i.e. how many total results exist in the database for a given cursor).
 
-It exposes two methods, `push` and `get`. In both cases, `terms` should be an object whose property can uniquely identify a cursor, such as your subscription terms for example:
+It exposes two methods, `set` and `get`. In both cases, `terms` should be an object whose property can uniquely identify a cursor, such as your subscription terms for example:
 
 ```js
 terms = {
@@ -284,7 +284,7 @@ terms = {
 
 Note: your terms should ideally include a unique identifier for the current publication to avoid any ambiguity in case the same selector/options pair is reused in a different context. 
 
-##### `push(terms, count)`
+##### `set(terms, count)`
 
 Call this from within your publication to update a count:
 
@@ -295,7 +295,7 @@ Meteor.publish('posts', function (terms) {
 
   const posts = Posts.find(terms.selector, terms.options);
 
-  CursorCounts.push(terms, posts.count());
+  CursorCounts.set(terms, posts.count());
 
   return posts;    
 

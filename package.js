@@ -22,9 +22,6 @@ Package.onUse(function(api) {
   //   'tmeasday:publish-counts@0.7.3',
   // ], {weak: true});
   
-  api.addFiles("lib/client/subscription.js", "client");
-  api.addFiles("lib/server/publication.js", "server");
-
   api.mainModule("lib/export.js", "server");
   api.mainModule("lib/export.js", "client");
 
