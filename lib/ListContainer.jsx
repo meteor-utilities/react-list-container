@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import React, { PropTypes, Component } from 'react';
-
+import CursorCounts from './counts.js';
 import Utils from './utils.js'
 
 const Subs = new SubsManager();
@@ -34,6 +34,7 @@ const ListContainer = React.createClass({
         terms.options = {}
       }
       terms.options.limit = this.state.limit;
+      terms.listId = this.props.listId;
 
       const subscribeFunction = this.props.cacheSubscription ? Subs.subscribe : Meteor.subscribe;
       const subscription = subscribeFunction(this.props.publication, terms);
@@ -96,19 +97,35 @@ const ListContainer = React.createClass({
       results = Utils.unflatten(results, "_id", this.props.parentProperty);
     }
 
-    // if increment is set to 0, hasMore is always false. 
-    // else, if publish-counts package is available, use it to get the totalCount
-    // and figure out if there are more items to load.
+    // by default, always assume there's more to come while data isn't ready, and then
+    // just keep showing "load more" as long as we get back as many items as we asked for
+    
+    data.hasMore = !data.ready || data.count === this.state.limit;
+
     if (this.props.increment === 0) {
+
+      // if increment is set to 0, hasMore is always false. 
       data.hasMore = false;
-    } else if (Counts && Counts.get && Counts.get(this.props.publication)) {
-      data.totalCount = Counts.get(this.props.publication);
-      data.hasMore = data.count < data.totalCount;
+
     } else {
-      // if not, always assume there's more to come while data isn't ready, and then
-      // just keep showing "load more" as long as we get back as many items as we asked for
-      data.hasMore = !data.ready || data.count === this.state.limit;
+
+      const sessionId = Meteor.isClient ? null : "session-ID-should-go-here";
+      const totalCount = CursorCounts.get(this.props.listId, sessionId);
+
+      if (totalCount) {
+        data.totalCount = totalCount;
+        data.hasMore = data.count < data.totalCount;
+      }
     }
+    // } else if (typeof Counts !== "undefined" && Counts.get && Counts.get(this.props.publication)) {
+
+    //   // or, use publish-counts package if available:
+    //   data.totalCount = Counts.get(this.props.listId);
+    //   if (typeof data.totalCount !== "undefined") {
+    //     data.hasMore = data.count < data.totalCount;
+    //   }
+
+    // }
 
     data[this.props.resultsPropName] = results;
 
@@ -134,19 +151,20 @@ const ListContainer = React.createClass({
 });
 
 ListContainer.propTypes = {
-  collection: React.PropTypes.object.isRequired, // the collection to paginate
-  selector: React.PropTypes.object, // the selector used in collection.find()
-  options: React.PropTypes.object, // the options used in collection.find()
-  publication: React.PropTypes.string, // the publication to subscribe to
-  terms: React.PropTypes.any, // an object passed to the publication
-  limit: React.PropTypes.number, // the initial number of items to display
-  increment: React.PropTypes.number, // the limit used to increase pagination
-  joins: React.PropTypes.array, // joins to apply to the results
-  parentProperty: React.PropTypes.string, // if provided, use to generate tree
-  component: React.PropTypes.func, // another way to pass a child component
-  componentProps: React.PropTypes.object, // the component's properties
-  resultsPropName: React.PropTypes.string, // if provided, the name of the property to use for results
-  cacheSubscription: React.PropTypes.bool // set to true to cache subscription using Subs Manager
+  collection: React.PropTypes.object.isRequired,  // the collection to paginate
+  selector: React.PropTypes.object,               // the selector used in collection.find()
+  options: React.PropTypes.object,                // the options used in collection.find()
+  publication: React.PropTypes.string,            // the publication to subscribe to
+  terms: React.PropTypes.any,                     // an object passed to the publication
+  limit: React.PropTypes.number,                  // the initial number of items to display
+  increment: React.PropTypes.number,              // the limit used to increase pagination
+  joins: React.PropTypes.array,                   // joins to apply to the results
+  parentProperty: React.PropTypes.string,         // if provided, use to generate tree
+  component: React.PropTypes.func,                // another way to pass a child component
+  componentProps: React.PropTypes.object,         // the component's properties
+  resultsPropName: React.PropTypes.string,        // if provided, the name of the property to use for results
+  cacheSubscription: React.PropTypes.bool,        // set to true to cache subscription using Subs Manager
+  listId: React.PropTypes.string,                 // a unique ID or name for the current list
 }
 
 ListContainer.defaultProps = {

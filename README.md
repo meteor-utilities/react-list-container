@@ -160,6 +160,10 @@ By default, the container will store its results in a `results` property. You ca
 
 Set to `true` to cache your subscription using [Subs Manager](https://github.com/kadirahq/subs-manager).
 
+##### `listId` (string)
+
+A unique name or ID for the current list. 
+
 ### Output
 
 The list container passes on the following props:

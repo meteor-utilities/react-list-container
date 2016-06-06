@@ -1,22 +1,36 @@
 Package.describe({
   name: "utilities:react-list-container",
   summary: "List container for React",
-  version: "0.1.9",
+  version: "0.1.10",
   git: "https://github.com/meteor-utilities/react-list-container.git"
 });
 
 Package.onUse(function(api) {
 
-  api.versionsFrom("METEOR@1.3-beta.11");
+  api.versionsFrom("METEOR@1.0");
   
   api.use([
+    'mongo',
     'ecmascript',
+    'modules',
     'react-meteor-data@0.2.6-beta.16',
     'tmeasday:check-npm-versions@0.1.1',
-    'tmeasday:publish-counts@0.7.3',
-    'meteorhacks:subs-manager@1.6.4'
+    'meteorhacks:subs-manager@1.6.4',
+    'timoruetten:flow-router-ssr-request@0.1.0'
   ]);
 
-  api.mainModule("lib/export.js", ["client", "server"]);
+  // api.use([
+  //   'tmeasday:publish-counts@0.7.3',
+  // ], {weak: true});
+  
+  api.addFiles("lib/client/subscription.js", "client");
+  api.addFiles("lib/server/publication.js", "server");
+
+  api.mainModule("lib/export.js", "server");
+  api.mainModule("lib/export.js", "client");
+
+  api.export([
+    "CursorCounts"
+  ]);
 
 });
