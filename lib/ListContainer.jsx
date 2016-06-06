@@ -47,17 +47,6 @@ const ListContainer = React.createClass({
     const options = {...this.props.options, limit: this.state.limit}; 
     const cursor = this.props.collection.find(selector, options);
 
-    // console.log("// posts available to SSR:")
-    // console.log(Posts.find().fetch().map(post => {
-    //   return {
-    //     _id: post._id,
-    //     title: post.title,
-    //     postedAt: post.postedAt,
-    //     createdAt: post.createdAt,
-    //     createdAt2: post.createdAt2
-    //   };
-    // }));
-
     data.count = cursor.count();
 
     let results = cursor.fetch(); 
@@ -120,28 +109,22 @@ const ListContainer = React.createClass({
       // if increment is set to 0, hasMore is always false. 
       data.hasMore = false;
 
-    } else if (terms && CursorCounts.get(terms)) {
+    // } else if (terms && CursorCounts.get(terms)) {
 
-      // note: it only makes sense to figure out a cursor count for cases
-      // where we subscribe from the client to the server (i.e. `terms` should exist)
+    //   // note: doesn't actually work
 
-      const totalCount = CursorCounts.get(terms);
+    //   // note: it only makes sense to figure out a cursor count for cases
+    //   // where we subscribe from the client to the server (i.e. `terms` should exist)
 
-      if (Meteor.isClient) {
-        console.log("// totalCount")
-        console.log(CursorCounts)
-        console.log(Injected.obj("CursorCountsInitial"))
-        console.log(CursorCounts.collection.find().fetch())
-        console.log(terms)
-        console.log(totalCount)
-      }
+    //   const totalCount = CursorCounts.get(terms);
 
-      data.totalCount = totalCount;
-      data.hasMore = data.count < data.totalCount;
+    //   data.totalCount = totalCount;
+    //   data.hasMore = data.count < data.totalCount;
 
     } else if (typeof Counts !== "undefined" && Counts.get && Counts.get(this.props.listId)) {
 
       // or, use publish-counts package if available:
+      // (currently only works on client)
       data.totalCount = Counts.get(this.props.listId);
       data.hasMore = data.count < data.totalCount;
 
