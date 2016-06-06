@@ -18,6 +18,8 @@ const ListContainer = React.createClass({
   
   getMeteorData() {
 
+    let terms;
+
     // initialize data object with current user, and default to data being ready
     let data = {
       currentUser: Meteor.user(),
@@ -27,7 +29,7 @@ const ListContainer = React.createClass({
     // subscribe if needed. Note: always subscribe first, otherwise 
     // it won't work when server-side rendering with FlowRouter SSR
     if (this.props.publication) {
-      let terms = _.clone(this.props.terms) || {};
+      terms = _.clone(this.props.terms) || {};
 
       // set subscription terms limit based on component state
       if (!terms.options) {
@@ -44,6 +46,17 @@ const ListContainer = React.createClass({
     const selector = this.props.selector || {};
     const options = {...this.props.options, limit: this.state.limit}; 
     const cursor = this.props.collection.find(selector, options);
+
+    // console.log("// posts available to SSR:")
+    // console.log(Posts.find().fetch().map(post => {
+    //   return {
+    //     _id: post._id,
+    //     title: post.title,
+    //     postedAt: post.postedAt,
+    //     createdAt: post.createdAt,
+    //     createdAt2: post.createdAt2
+    //   };
+    // }));
 
     data.count = cursor.count();
 
@@ -107,10 +120,12 @@ const ListContainer = React.createClass({
       // if increment is set to 0, hasMore is always false. 
       data.hasMore = false;
 
-    } else {
+    } else if (terms) {
 
-      const sessionId = Meteor.isClient ? null : "session-ID-should-go-here";
-      const totalCount = CursorCounts.get(this.props.listId, sessionId);
+      // note: it only makes sense to figure out a cursor count for cases
+      // where we subscribe from the client to the server (i.e. `terms` should exist)
+
+      const totalCount = CursorCounts.get(terms);
 
       if (totalCount) {
         data.totalCount = totalCount;

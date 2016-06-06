@@ -15,8 +15,7 @@ Package.onUse(function(api) {
     'modules',
     'react-meteor-data@0.2.6-beta.16',
     'tmeasday:check-npm-versions@0.1.1',
-    'meteorhacks:subs-manager@1.6.4',
-    'timoruetten:flow-router-ssr-request@0.1.0'
+    'meteorhacks:subs-manager@1.6.4'
   ]);
 
   // api.use([
