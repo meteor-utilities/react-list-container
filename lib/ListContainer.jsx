@@ -120,7 +120,7 @@ const ListContainer = React.createClass({
       // if increment is set to 0, hasMore is always false. 
       data.hasMore = false;
 
-    } else if (terms) {
+    } else if (terms && CursorCounts.get(terms)) {
 
       // note: it only makes sense to figure out a cursor count for cases
       // where we subscribe from the client to the server (i.e. `terms` should exist)
@@ -136,20 +136,16 @@ const ListContainer = React.createClass({
         console.log(totalCount)
       }
 
-      if (totalCount) {
-        data.totalCount = totalCount;
-        data.hasMore = data.count < data.totalCount;
-      }
+      data.totalCount = totalCount;
+      data.hasMore = data.count < data.totalCount;
+
+    } else if (typeof Counts !== "undefined" && Counts.get && Counts.get(this.props.listId)) {
+
+      // or, use publish-counts package if available:
+      data.totalCount = Counts.get(this.props.listId);
+      data.hasMore = data.count < data.totalCount;
+
     }
-    // } else if (typeof Counts !== "undefined" && Counts.get && Counts.get(this.props.publication)) {
-
-    //   // or, use publish-counts package if available:
-    //   data.totalCount = Counts.get(this.props.listId);
-    //   if (typeof data.totalCount !== "undefined") {
-    //     data.hasMore = data.count < data.totalCount;
-    //   }
-
-    // }
 
     data[this.props.resultsPropName] = results;
 

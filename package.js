@@ -18,9 +18,9 @@ Package.onUse(function(api) {
     'meteorhacks:subs-manager@1.6.4'
   ]);
 
-  // api.use([
-  //   'tmeasday:publish-counts@0.7.3',
-  // ], {weak: true});
+  api.use([
+    'tmeasday:publish-counts@0.7.3',
+  ], {weak: true});
   
   api.mainModule("lib/export.js", "server");
   api.mainModule("lib/export.js", "client");

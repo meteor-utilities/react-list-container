@@ -264,7 +264,7 @@ The document.
 
 ## CursorCounts
 
-**Note: doesn't work yet (`Error: Removed nonexistent document`)**
+**Note: doesn't work after all, keeping this here for reference's sake. Use [publish-counts](https://github.com/percolatestudio/publish-counts) instead.**
 
 This package also provides a `CursorCounts` object to keep track of cursor counts (i.e. how many total results exist in the database for a given cursor).
 
