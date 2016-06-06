@@ -127,6 +127,15 @@ const ListContainer = React.createClass({
 
       const totalCount = CursorCounts.get(terms);
 
+      if (Meteor.isClient) {
+        console.log("// totalCount")
+        console.log(CursorCounts)
+        console.log(Injected.obj("CursorCountsInitial"))
+        console.log(CursorCounts.collection.find().fetch())
+        console.log(terms)
+        console.log(totalCount)
+      }
+
       if (totalCount) {
         data.totalCount = totalCount;
         data.hasMore = data.count < data.totalCount;

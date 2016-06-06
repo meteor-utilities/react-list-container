@@ -11,8 +11,8 @@ Package.onUse(function(api) {
   
   api.use([
     'mongo',
-    'ecmascript',
-    'modules',
+    'ecmascript@0.4.2',
+    'modules@0.5.2',
     'react-meteor-data@0.2.6-beta.16',
     'tmeasday:check-npm-versions@0.1.1',
     'meteorhacks:subs-manager@1.6.4'
