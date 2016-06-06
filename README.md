@@ -264,6 +264,8 @@ The document.
 
 ## CursorCounts
 
+**Note: doesn't work yet (`Error: Removed nonexistent document`)**
+
 This package also provides a `CursorCounts` object to keep track of cursor counts (i.e. how many total results exist in the database for a given cursor).
 
 It exposes two methods, `set` and `get`. In both cases, `terms` should be an object whose property can uniquely identify a cursor, such as your subscription terms for example:
