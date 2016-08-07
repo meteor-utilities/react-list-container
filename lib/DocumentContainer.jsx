@@ -10,7 +10,7 @@ const DocumentContainer = React.createClass({
 
     // subscribe if necessary
     if (this.props.publication) {
-      const subscribeFunction = this.props.cacheSubscription ? Subs.subscribe : Meteor.subscribe;
+      const subscribeFunction = this.props.cacheSubscription ? Subs.subscribe.bind(Subs) : Meteor.subscribe;
       const subscription = subscribeFunction(this.props.publication, this.props.terms);
     }
 

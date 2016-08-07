@@ -38,7 +38,7 @@ const ListContainer = React.createClass({
       terms.options.limit = this.state.limit;
       terms.listId = this.props.listId;
 
-      const subscribeFunction = this.props.cacheSubscription ? Subs.subscribe : Meteor.subscribe;
+      const subscribeFunction = this.props.cacheSubscription ? Subs.subscribe.bind(Subs) : Meteor.subscribe;
       const subscription = subscribeFunction(this.props.publication, terms);
       data.ready = subscription.ready();
     }
