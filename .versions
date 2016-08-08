@@ -45,6 +45,6 @@ tmeasday:check-npm-versions@0.1.1
 tracker@1.0.13
 ui@1.0.11
 underscore@1.0.8
-utilities:react-list-container@0.1.12
+utilities:react-list-container@0.1.13
 webapp@1.2.8
 webapp-hashing@1.0.9
